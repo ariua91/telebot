@@ -11,8 +11,8 @@ import datetime as dt
 from config import *
 
 
-# logging.basicConfig(level=logging.DEBUG,
-#                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 updater = Updater(token=TELE_BOT_TOKEN)
@@ -73,25 +73,25 @@ def get_img(bot, update, args):
     tmp_sub = args[0]
     try:
         tmp_meme = get_memes(tmp_sub, reddit, 15)[0]
+        try:
+            bot.send_photo(
+                chat_id=update.message.chat_id,
+                photo=tmp_meme.url,
+                caption="{}\r\n\r\nfrom: {}\r\n{}".format(
+                    tmp_meme.title,
+                    tmp_sub,
+                    get_date(tmp_meme.created)
+                )
+            )
+        # BAD PRACTICE
+        except:
+            bot.send_message(chat_id=update.message.chat_id,
+                             text='What am I, your slave?'
+            )
     # BAD PRACTICE
     except:
         bot.send_message(chat_id=update.message.chat_id,
                          text="What if I don't feel like it?"
-        )
-    try:
-        bot.send_photo(
-            chat_id=update.message.chat_id,
-            photo=tmp_meme.url,
-            caption="{}\r\n\r\nfrom: {}\r\n{}".format(
-                tmp_meme.title,
-                tmp_sub,
-                get_date(tmp_meme.created)
-            )
-        )
-    # BAD PRACTICE
-    except:
-        bot.send_message(chat_id=update.message.chat_id,
-                         text='What am I, your slave?'
         )
 
 def memes(bot, update):
