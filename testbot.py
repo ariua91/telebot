@@ -60,7 +60,8 @@ def echo(bot, update):
     echo_responses = ['Ooo, "{}", can you believe this guy?',
                       '"{}", you say?',
                       '''"{}"? Pull the other one, it's got bells on it.''',
-                      'Stupid say "{}"?'
+                      'Stupid say "{}"?',
+                      '''That's what they all say'''
     ]
     bot.send_message(chat_id=update.message.chat_id,
                      text=random.choice(echo_responses).format(
@@ -84,15 +85,18 @@ def many_memes(bot, update):
     top_meme = get_many_memes(subs, reddit, 5)
     for k, tmp in top_meme.items():
         for i in tmp:
-            bot.send_photo(
-                chat_id=update.message.chat_id,
-                photo=i.url,
-                caption="{}\r\n\r\nfrom: {}\r\n{}".format(
-                    i.title,
-                    k,
-                    get_date(i.created)
+            try:
+                bot.send_photo(
+                    chat_id=update.message.chat_id,
+                    photo=i.url,
+                    caption="{}\r\n\r\nfrom: {}\r\n{}".format(
+                        i.title,
+                        k,
+                        get_date(i.created)
+                    )
                 )
-            )
+            except:
+                pass
 
 
 start_handler = CommandHandler('start', start)
