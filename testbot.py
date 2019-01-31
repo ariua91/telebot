@@ -11,8 +11,8 @@ import datetime as dt
 from config import *
 
 
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# logging.basicConfig(level=logging.DEBUG,
+#                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 updater = Updater(token=TELE_BOT_TOKEN)
@@ -68,6 +68,26 @@ def echo(bot, update):
                          update.message.text)
     )
 
+
+def get_img(bot, update, args):
+    tmp_sub = args[0]
+    tmp_meme = get_memes(tmp_sub, reddit, 15)[0]
+    try:
+        bot.send_photo(
+            chat_id=update.message.chat_id,
+            photo=tmp_meme.url,
+            caption="{}\r\n\r\nfrom: {}\r\n{}".format(
+                tmp_meme.title,
+                tmp_sub,
+                get_date(tmp_meme.created)
+            )
+        )
+    # BAD PRACTICE
+    except:
+        bot.send_message(chat_id=update.message.chat_id,
+                         text='What am I, your slave?'
+        )
+
 def memes(bot, update):
     tmp_sub = random.choice(subs)
     tmp_meme = get_memes(tmp_sub, reddit, 15)[0]
@@ -95,6 +115,7 @@ def many_memes(bot, update):
                         get_date(i.created)
                     )
                 )
+            # BAD PRACTICE
             except:
                 pass
 
@@ -110,5 +131,8 @@ dispatcher.add_handler(meme_handler)
 
 many_memes_handler = CommandHandler('mememeupscotty', many_memes)
 dispatcher.add_handler(many_memes_handler)
+
+img_handler = CommandHandler('get', get_img, pass_args=True)
+dispatcher.add_handler(img_handler)
 
 updater.start_polling()
