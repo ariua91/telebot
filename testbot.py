@@ -3,6 +3,7 @@ import logging
 from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
+from telegram import KeyboardButton, ReplyKeyboardMarkup
 import praw
 import random
 import datetime as dt
@@ -10,8 +11,8 @@ import datetime as dt
 from config import *
 
 
-# logging.basicConfig(level=logging.DEBUG,
-#                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 updater = Updater(token=TELE_BOT_TOKEN)
@@ -47,8 +48,12 @@ def get_date(created):
                                              + dt.timedelta(hours=8)
 
 def start(bot, update):
+    kb = [[KeyboardButton('/memes')],
+          [KeyboardButton('/mememeupscotty')]]
+    kb_markup = ReplyKeyboardMarkup(kb)
     bot.send_message(chat_id=update.message.chat_id,
-                     text="Welcome to dankness, fam."
+                     text="Welcome to dankness, fam.",
+                     reply_markup=kb_markup
     )
 
 def echo(bot, update):
