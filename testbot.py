@@ -71,7 +71,13 @@ def echo(bot, update):
 
 def get_img(bot, update, args):
     tmp_sub = args[0]
-    tmp_meme = get_memes(tmp_sub, reddit, 15)[0]
+    try:
+        tmp_meme = get_memes(tmp_sub, reddit, 15)[0]
+    # BAD PRACTICE
+    except:
+        bot.send_message(chat_id=update.message.chat_id,
+                         text="What if I don't feel like it?"
+        )
     try:
         bot.send_photo(
             chat_id=update.message.chat_id,
