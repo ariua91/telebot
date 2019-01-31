@@ -10,8 +10,8 @@ import datetime as dt
 from config import *
 
 
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# logging.basicConfig(level=logging.DEBUG,
+#                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 
 updater = Updater(token=TELE_BOT_TOKEN)
